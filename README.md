@@ -1,2 +1,2 @@
 # docker_ws
- A collection of useful docker files
+ A collection of useful Dockerfile
