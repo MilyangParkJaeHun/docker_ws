@@ -21,7 +21,9 @@ RUN mkdir -p opencv && \
     wget -O opencv.zip https://github.com/opencv/opencv/archive/4.2.0.zip && \
     unzip opencv.zip && \
     wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.2.0.zip && \
-    unzip opencv_contrib.zip
+    unzip opencv_contrib.zip && \
+    rm opencv.zip && \
+    rm opencv_contrib.zip
 
 RUN mkdir -p /opencv/opencv-4.2.0/build && \
     cd /opencv/opencv-4.2.0/build && \
@@ -46,8 +48,7 @@ RUN mkdir -p /opencv/opencv-4.2.0/build && \
     -D WITH_XINE=ON \
     -D BUILD_NEW_PYTHON_SUPPORT=ON \
     -D OPENCV_GENERATE_PKGCONFIG=ON ../ && \
-    cd /opencv/opencv-4.2.0/build && make -j8 && make install && ldconfig && \
-    rm -r /opencv
+    cd /opencv/opencv-4.2.0/build && make -j8 && make install && ldconfig
 
 RUN useradd --user-group --system --create-home --no-log-init ${USERNAME} && \
     usermod -aG sudo ${USERNAME}
@@ -57,7 +58,7 @@ RUN	sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
     apt -y update && \
     DEBIAN_FRONTEND="noninteractive" TZ="Asia/Seoul" \
     apt -y install ros-noetic-desktop && \
-    echo "source /opt/ros/melodic/setup.bash" >> /home/${USERNAME}/.bashrc && \
+    echo "source /opt/ros/noetic/setup.bash" >> /home/${USERNAME}/.bashrc && \
     /bin/bash -c 'source /home/${USERNAME}/.bashrc' &&\
     apt-get -y install \
 	python3-rosdep \
